@@ -1,220 +1,184 @@
-# Linguaggi di Programmazione AA 2022-2023 Progetto luglio 2023
-## k-medie
-Marco Antoniotti, Gabriella Pasi e Fabio Sartori DISCo
-30 giugno 2023
-Scadenza
-La consegna di questo elaborato è fissata per il 28 luglio 2023 alle ore 23:59 GMT+1.
-Premessa
-LEGGERE ATTENTAMENTE TUTTO IL TESTO!
-1 Introduzione
-Uno degli algoritmi principali (e piu` semplici) utilizzati nell’analisi statistica dei dati1 `e noto come l’algoritmo di clustering non supervisionato (“unsupervised”) delle k-medie.
-L’obiettivo di un algoritmo di clustering `e, dato un insieme di n oggetti (o osservazioni), partizionarli in k sottoinsiemi (o categorie non predefinite) che raggruppino oggetti che condividono delle propriet`a. Ad esempio un algoritmo di clustering applicato a delle immagini telerilevate potrebbe partizionare le immagini sulla base della tipologia di scena rappresentata, quale centri abitati, boschi, superfici acquee, ecc. In particolare, l’algoritmo di clustering delle k-medie `e di partizionare n osservazioni in k clusters (gruppi), dove ogni osservazione appartiene al gruppo in cui cade la media piu` “vicina”. La “media” (detta centroide) serve come “prototipo” del gruppo. Il centroide che rappresenta una categoria viene in questo caso calcolato come la media degli oggetti del gruppo e ne costituisce il prototipo.
-In generale il problema `e NP-hard, ma la variante “euristica” di Lloyd dell’algoritmo k-medie `e una soluzione abbastanza buona ed efficace. Una limitazione dell’algoritmo k -medie `e che il parametro k deve essere specificato dall’utente in anticipo.
-Il vostro compito `e di construire una libreria Common Lisp ed una libreria Prolog che implementino l’algoritmo k-medie di Lloyd.
-Per una descrizione dell’algoritmo delle k-medie potete guardare G. James, D. Witten, T. Hastie, R. Tibshirani, An Introduction to Statistical Learning, Springer, 2015, o al piu` avanzato T. Hastie, R. Tibshirani, J. Friedman, The Elements of Statistical Learning, Data Mining, Inference, and Prediction, Springer, 2009, oppure anche le descrizioni di Wikipedia (Inglese).
-L’Algoritmo 1 rappresenta (in pseudo codice) i passi principali dell’algoritmo k-medie.
-1Statistical Learning, Machine Learning, Data Analysis, Big Data, etc. etc. etc. 1
- 
- Algoritmo 1 k-medie di Lloyd: pseudo codice. KM(n observations, k) → k clusters
- 1:
-2: 3:
-4: 5: 6: 7: 8:
-9: 10:
-2
-cs ← Initialize(k)
-Crea k centroidi iniziali, ad esempio usando il metodo di Forgy che sceglie casualmente k delle osser- vazioni iniziali.
-clusters ← {}
-clusters′ ← Partition(observations, cs)
-Raggruppa le “observations” attorno ai k centroidi in “cs”.
-if clusters = clusters′ then return clusters
-else
-clusters ← clusters′
-cs ← RecomputeCentroids(clusters) Ricalcola il “centroide” di ogni gruppo.
-goto 3 end if
-Requisiti Progetto
- Innanzitutto il progetto `e realizzabile in modo completamente funzionale (o logico). Non potete usare operazioni di assegnamento (set, setq, setf) o asserzioni sulla base dati Prolog, se non per casi assolutamente necessari e dopo aver ricevuto esplicito permesso.
-Osservazioni
-Le “osservazioni” sono, nel caso piu` semplice, dei vettori numerici. Sempre per semplicit`a2 in Common Lisp ed in Prolog potete rappresentare le “osservazioni” con delle liste.
-Dato che il cuore dell’algoritmo k-medie `e costituito da un’operazione di calcolo di una distanza (Euclidea) tra vettori, dovrete implementare una serie di operazioni vettoriali.
-• somma, sottrazione, prodotto scalare, • prodotto interno (euclideo),
-• norma.
-Esempi Common Lisp Creiamo un vettore v3
-CL prompt> (defparameter v3 (list 1 2 3))
-V3
-CL prompt> v3
-(1 2 3) ; L’implementazione  ́e con liste.
-Ora calcoliamo la sua norma, ovvero. . .
-CL prompt> (sqrt (innerprod V3 V3))
-3.7416575 ; Il risultato pu`o variare. 2Ovviamente non per efficienza.
- 2
+# JSON Parsing
+## **Consegna: 15 gennaio 2018, ore 23:59 GMT+1**
+## Introduzione
+Lo sviluppo di applicazioni web su Internet, ma non solo, richiede di scambiare dati fra applicazioni eterogenee, ad esempio tra un client web scritto in Javascript e un server, e viceversa. Uno standard per lo scambio di dati molto diffuso è    lo standard JavaScript Object Notation, o JSON. Lo scopo di questo progetto è di realizzare due librerie, una in Prolog e l’altra in Common Lisp, che costruiscano delle strutture dati che rappresentino degli oggetti JSON a partire dalla loro rappresentazione come stringhe.
+## La sintassi delle stringhe JSON
+Considereremo una versione **semplificata** della sintassi delle stringhe JSON:
+- JSON ::= Object | Array
+- Object ::= '{}' | '{' Members '}'
+- Members ::= Pair | Pair ',' Members
+- Pair ::= String ':' Value
+- Array ::= '[]' | '[' Elements ']'
+- Elements ::= Value | Value ',' Elements
+- Value ::= JSON | Number | String
+- Number ::= Digit+ | Digit+ '.' Digit+ Digit  ::= 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
+- String ::= '"' AnyCharSansDQ* '"' | '’' AnyCharSansSQ* '’'
+- AnyCharSansDQ ::= <qualunque carattere (ASCII) diverso da '"'>
+- AnyCharSansSQ ::= <qualunque carattere (ASCII) diverso da '’'>
 
-dove innerprod `e il prodotto interno. Naturalmente possiamo anche avere CL prompt> (norm V3)
-3.7416575
-Somme, etc. . .
-CL prompt> (vplus V3 (list 10 0 42))
-(11 2 45)
-Le funzioni map, mapc, mapcar, mapcan, reduce etc., sono piu` che utili in questo frangente.
-Esempi Prolog
-Ricordiamoci un vettore. . .
-?- new_vector(v3, [1, 2, 3]).
-true
-?- vector(v3, V).
-V = [1, 2, 3]
-Ora calcoliamo la sua norma. . .
-?- vector(v3, V), innerprod(V, V, IP), N is sqrt(IP).
-V = [1, 2, 3]
-N = 3.7416575
-?- vector(v3, V), norm(V, N).
-V = [1, 2, 3]
-N = 3.7416575
-?- vector(v3, V), vplus(V, [10, 0, 42], S).
-V = [1, 2, 3]
-S = [11, 2, 45]
-Interfaccia
-Common Lisp
-La libreria Common Lisp dovr`a fornire una funzione kmeans che costruisca la partizione dell’insieme di osservazioni in k gruppi (clusters). Altre funzioni di utilit`a sono elencate di seguito.
-kmeans observations k → clusters
-Il parametro observations `e una lista di vettori (ovvero liste), il parametro k `e il numero di clusters da generare. Il risultato clusters `e una lista di gruppi, ovvero di liste di vettori (che, ripetiamo, sono liste). La funzione chiamare la funzione error se il numero di osservazioni `e minore di k.
-centroid observations → centroid
-La funzione centroid ritorna il centroide (i.e., la “media”) dell’insieme di osservazioni observations (una lista di vettori, ovvero di altre liste).
-  3
+Dalla    grammatica    data,    un    oggetto    JSON    può    essere    scomposto    ricorsivamente    nelle    seguenti    parti:
+1. Object
+2. Pair
+3. Array
+4. Value
+5. String
+6. Number
 
-Nota bene. Il centroide di un insieme di vettori non `e necessariamente un elemento dell’insieme dato.
-vplus vector1 vector2 → v
-La funzione vplus calcola la somma (vettoriale) di due vettori.
-vminus vector1 vector2 → v
-La funzione v calcola la differenza (vettoriale) di due vettori.
-innerprod vector1 vector2 → v
-La funzione innerprod calcola il prodotto interno (vettoriale) di due vettori. Il valore ritornato v `e uno
-scalare.
-norm vector → v
-La funzione norm calcola la norma euclidea di un vettore. Il valore ritornato v `e uno scalare.
-Prolog
-La libreria Prolog dovr`a fornire una predicato kmeans che costruisca la partizione dell’insieme di osser- vazioni in k gruppi (clusters). Altri predicati di utilit`a sono elencate di seguito.
-kmeans(Observations, K, Clusters)
-Il parametro Observations `e una lista di vettori (ovvero liste), il parametro K `e il numero di clusters da generare. Il predicato km/3 `e vero quando Clusters `e una lista di gruppi che corrisponde alla partizione di Observations in k clusters.
-Il predicato km/3 deve fallire se il numero di osservazioni `e minore di K.
-centroid(Observations, Centroid)
-Il predicato centroid/2 `e vero quando Centroid `e il centroide (i.e., la “media”) dell’insieme di osservazioni Observations (una lista di vettori, ovvero di altre liste).
-Nota bene. Il centroide di un insieme di vettori non `e necessariamente un elemento dell’insieme dato.
-vplus(Vector1, Vector2, V )
-Il predicato vplus/3 `e vero quando V `e la somma (vettoriale) di due vettori.
-       4
+## Esempi
+L'oggetto vuoto:
+```
+{}
+```
+L'array vuoto:
+```
+[]
+```
+Un oggetto con due "items":
+```
+{"nome": "Arthur", "cognome": 'Dent'}
+```
+Un oggetto complesso, contenente un sotto-oggetto, che a sua volta contiene un array di numeri (notare che, in generale, gli array non devono necessariamente avere tutti gli    elementi dello stesso tipo)
+```
+{
+"modello": "SuperBook 1234",
+"anno di produzione": 2014,
+"processore":
+{
+"produttore": "EsseTi",
+"velocità di funzionamento (GHz)": [1, 2, 4, 8]
+}
+}
+```
+Un altro esempio tratto da Wikipedia (una possibile voce di menu)
+```
+{
+"type": "menu",
+"value": "File",
+"items":
+[
+{"value": "New", "action": "CreateNewDoc"},
+{"value": "Open", "action": "OpenDoc"},
+{"value": "Close", "action": "CloseDoc"}
+]
+}
+```
 
- vminus(Vector1, Vector2, V )
-Il predicato vminus/3 `e vero quando V `e la sottrazione (vettoriale) del vettore Vector2 da Vector1.
-innerprod(Vector1, Vector2, R)
-Il predicato innerprod/3 `e vero quando R `e il prodotto interno (vettoriale) di due vettori. Il valore R `e
-uno scalare. norm(Vector, N )
-Il predicato norm/2 `e vero quando N `e la norma euclidea di un vettore. Il valore ritornato N `e uno scalare. new vector(Name, Vector)
-Il predicato new vector/2 `e vero quando a Name (un atomo Prolog) viene associato un vettore Vector. In questo caso potete usare assert.
-Note ed esempi
-Considerate l’insieme di osservazioni (in 2D):
-O = {(3.0, 7.0), (0.5, 1.0), (0.8, 0.5), (1.0, 8.0), (0.9, 1.2), (6.0, 4.0), (7.0, 5.5),
-(4.0, 9.0), (9.0, 4.0)}.
-Le tre clusters (con k = 3) calcolate dall’algoritmo k-medie sono:
-1. {(1.0,8.0),(3.0,7.0),(4.0,9.0)}, 2. {(0.5,1.0),(0.8,0.5),(0.9,1.2)}, 3. {(6.0,4.0),(7.0,5.5),(9.0,4.0)}.
-La Figura 1 mostra la disposizione di ogni punto e di ogni cluster. Notate che i centroidi non fanno parte dell’insieme iniziale di osservazioni.
-Esempi
-Common Lisp
-L’ordine in ognuno dei gruppi trovati non `e importante.
-CL prompt> (defparameter observations
-              ’((3.0 7.0) (0.5 1.0) (0.8 0.5) (1.0 8.0)
-   OBSERVATIONS
-(0.9 1.2) (6.0 4.0) (7.0 5.5)
-(4.0 9.0) (9.0 4.0)))
-5
+## Indicazioni e requisiti
+Dovete costruire un parser per le stringhe JSON semplificate che abbiamo descritto. La stringa in input va analizzata ricorsivamente pe comporre una struttura adeguata a memorizzarne le componenti. Si cerchi di costruire un parser guidato dalla struttura ricorsiva del testo in input. Ad esempio, un eventuale array (e la sua composizione interna in elements) va individuato dopo l’individuazione del member del quale fa parte, e il meccanismo di ricerca non deve ripartire dalla stringa iniziale ma bensì dal risultato della ricerca del member stesso.
 
-   (1, 8) r×
-r(1.8, 1.2) r(0.8, 0.5)
-(0.5, 1)
-r
-×
-(4, 9) r
-r
-(3, 7)
-(7.0, 5.5) r
-×
-rr
-(6, 4) (9.0, 4.0)
- Fig. 1: Un esempio con tre clusters (colorate in rosso, verde e blu) di 9 osservazioni (in questo caso punti a 2D). I centroidi (marcati con ’×’) a (2.666, 8), (1.033, 0.9) and (7.333, 4.5) non fanno parte dell’insieme iniziale di osservazioni.
-6
+**In altre parole, approcci del tipo    "ora cerco la posizione del ':' e poi prendo la sottostringa...", non sono il modo migliore di affrontare in problema. Anzi: quasi sicuramente porteranno ad un programma estremamente complicato, poco funzionante e quindi… insufficiente.**
 
-CL prompt> (kmeans observations 3)
-(((1.0 8.0) (3.0 7.0) (4.0 9.0))
- ((0.5 1.0) (0.8 0.5) (0.9 1.2))
- ((6.0 4.0) (7.0 5.5) (9.0 4.0)))
-Prolog
-L’ordine in ognuno dei gruppi trovati non `e importante.
-?- kmeans([[3.0, 7.0], [0.5, 1.0], [0.8, 0.5], [1.0, 8.0],
-           [0.9, 1.2], [6.0, 4.0], [7.0, 5.5],
-           [4.0, 9.0], [9.0, 4.0]],
-           3,
-           Clusters).
-Clusters = [[[1.0, 8.0], [3.0, 7.0], [4.0, 9.0]],
-            [[0.5, 1.0], [0.8, 0.5], [0.9, 1.2]]
-            [[6.0, 4.0], [7.0, 5.5], [9.0, 4.0]]]
-Note
-L’algoritmo delle k-medie `e, di fatto, una serie di cicli innestati. Ricordate che questa funzione:
-(defun fatt (x)
-  (let ((result 1))
-    (loop while (> x 0)
-          do (setf result (* x result)
-x (1- x)))
-result))
-E` del tutto equivalente a questa:
-(defun fatt (x &optional (result 1))
-  (if (zerop x)
-      result
-      (fatt (1- x) (* x result))))
-In altre parole, potete (dovete!) sostituire ogni ciclo con una funzione ricorsiva (in coda).
-Everybody knows how to search the Internet!
-...in altre parole, sono ben noti (quasi) tutti i pacchetti software che implementano (in Common Lisp o in Prolog) l’algoritmo k-medie.
-7
+## Valore undefined
+Javascript e quindi JSON spesso ritornano un valore 'undefined' per varie operazioni. In tutti questi casi voi dovrete invece generare un errore chiamando la    funzione error in Common Lisp o fallendo in Prolog.
+## Errori di sintassi
+Se la sintassi che incontrate non è corretta dovete fallire in Prolog o segnalare un errore in Common Lisp chiamando la funzione error.
+## Realizzazione Prolog
+La realizzazione in Prolog del parser richiede la definizione di due predicati: `json_parse/2` e `json_get/3`.
+Il predicato `json_parse/2` è definibile come: `json_parse(JSONString, Object)`.
+che risulta vero se JSONString (una stringa SWI Prolog o un atomo Prolog) può venire scorporata come stringa, numero, o nei termini composti:
+- `Object = json_obj(Members)`
+- `Object = json_array(Elements)`
 
-3 Da consegnare. . .
-LEGGERE ATTENTAMENTE LE ISTRUZIONI QUI SOTTO.
-PRIMA DI CONSEGNARE, CONTROLLATE ACCURATAMENTE CHE TUTTO SIA NEL FORMATO CORRETTO E CON LA STRUT- TURA DI CARTELLE RICHIESTA.
-Dovete consegnare:
-Uno .zip file dal nome <Cognome> <Nome> <matricola> km LP 202307.zip che conterr`a una
-cartella dal nome <Cognome> <Nome> <matricola> km LP 202307.
-Cognomi e nomi multipli dovranno essere scritti sempre con in carattere “underscore” (’ ’). Ad esempio, “Gian Giacomo Pier Carl Luca De Mascetti Vien Dal Mare” che ha matricola 424242 diventer`a:
-De Mascetti Vien Dal Mare Gian Giacomo Pier Carl Luca 424242 km LP
-Inoltre. . .
-• Nella cartella dovete avere una sottocartella di nome Lisp e una sottocartella di nome Prolog. • Nella directory Lisp dovete avere:
-– un file dal nome km.lisp che contiene il codice di kmeans, vplus, etc.
-∗ Le prime linee del file devono essere dei commenti con il seguente formato, ovvero devono fornire le necessarie informazioni secondo le regole sulla collaborazione pubblicate su Moodle.
-                 ;;;; <Cognome> <Nome> <Matricola>
-                 ;;;; <eventuali collaborazioni>
-Il contenuto del file deve essere ben commentato.
-– Un file README in cui si spiega come si possono usare le funzioni definite nella libreria.
-• Nella directory Prolog dovete avere:
-– un file dal nome km.pl che contiene il codice di km/3, vplus/3, etc.
-∗ Le prime linee del file devono essere dei commenti con il seguente formato, ovvero devono fornire le necessarie informazioni secondo le regole sulla collaborazione pubblicate su Moodle.
-                 % <Cognome> <Nome> <Matricola>
-                 % <eventuali collaborazioni>
-Il contenuto del file deve essere ben commentato.
-– Un file README in cui si spiega come si possono usare i predicati definiti nel programma.
-ATTENZIONE! Consegnate solo dei files e directories con nomi fatti come spiegato. Niente spazi extra e soprattutto niente .rar or .7z o .tgz – solo .zip!
-Repetita iuvant! NON CONSEGNARE FILES .rar!!!!
-8
+e ricorsivamente:
+- `Members = []` or
+- `Members = [Pair | MoreMembers]`
+- `Pair = (Attribute, Value)`
+- `Attribute = <string SWI Prolog>`
+- `Number = <numero Prolog>`
+- `Value = <string SWI     Prolog> | Number | Object`
+- `Elements = []` or
+- `Elements = [Value | More elements]`
 
-Esempio:
-File .zip: Antoniotti_Marco_424242_km_LP_202307.zip Che contiene:
-prompt$ unzip -l Antoniotti_Marco_424242_km_LP_202307.zip
-Archive:  Antoniotti_Marco_424242_km_LP_202307.zip
-  Length     Date   Time    Name
- --------    ----   ----    ----
-        0  23-06-14 09:59   Antoniotti_Marco_424242_km_LP_202307/
-        0  23-06-14 09:55   Antoniotti_Marco_424242_km_LP_202307/Lisp/
-     4623  23-06-14 09:51   Antoniotti_Marco_424242_km_LP_202307/Lisp/km.lisp
-    10598  23-06-14 09:53   Antoniotti_Marco_424242_km_LP_202307/Lisp/README.txt
-        0  23-06-14 09:55   Antoniotti_Marco_424242_km_LP_202307/Prolog/
-     4623  23-06-14 09:51   Antoniotti_Marco_424242_km_LP_202307/Prolog/km.lisp
-    10598  23-06-14 09:53   Antoniotti_Marco_424242_km_LP_202307/Prolog/README.txt
- --------                   -------
-    30442                   7 files
-3.1 Valutazione
-Il programma sar`a valutato sulla base di una serie di test standard, oltre agli esempi riportati in questo testo.
+Il predicato json_get/3 è definibile come: `json_get(JSON_obj, Fields, Result)`. che risulta vero quando `Result` è recuperabile seguendo la catena di campi presenti in `Fields` (una lista) a partire da `JSON_obj`. Un campo rappresentato da `N` (con `N` un numero maggiore o uguale a 0) corrisponde a un indice di un array JSON.
+Come caso speciale dovete anche gestire il caso `json_get(JSON_obj, Field, Result).` Dove `Field` è una stringa SWI Prolog.
+
+## Esempi
+```
+?- json_parse('{"nome": "Arthur", "cognome": "Dent"}', O),
+json_get(O, ["nome"], R).
+O = json_obj([("nome", "Arthur"), ("cognome", "Dent")])
+R = "Arthur"
+```
+
+```
+?- json_parse('{"nome": "Arthur", "cognome": "Dent"}', O),
+json_get(O, "nome", R). % Notare le differenza.
+O = json_obj([("nome", "Arthur"), ("cognome", "Dent")])
+R = "Arthur"
+```
+
+```
+?- json_parse('{"nome" : "Zaphod",
+"heads": ["Head1", "Head2"]}', % Attenzione al newline.
+Z),
+json_get(Z, ["heads", 1], R).
+Z = json_obj([("name", "Zaphod"), (heads, json_array(["Head1", "Head2"]))])
+R = "Head2"
+```
+
+```
+?- json_parse('[]', X).
+X = json_array([]).
+```
+
+```
+?- json_parse('{}', X).
+X = json_obj([]).
+```
+
+```
+?- json_parse('[}', X).
+false
+```
+
+```
+?- json_parse('[1, 2, 3]', A), json_get(A, [3], E).
+false
+```
+
+Notate che nel corso dell'elaborazione potrebbe essere necessario gestire le stringhe in termini di liste di "codici di caratteri", utilizzando i predicati di conversione `atom_chars`, `string_codes` e `atom_string` (Si assume che stiate usando SWIPL). Tali liste non vengono però visualizzate in modo leggibile da parte di utenti umani, e.g., "http" è visualizzata come [104, 116, 116, 112]. Nella costruzione dei valori di tipo String è richiesta l'eventuale conversione da liste di questo genere a stringhe leggibili. La costruzione di un predicato invertibile in grado di risolvere questo problema non è immediata, però, il vostro programma dovrebbe essere in grado di rispondere correttamente a query nelle quali i termini fossero parzialmente istanziati, come ad esempio:
+```
+?- json_parse('{"nome" : "Arthur", "cognome" : "Dent"}',
+json_obj([json_array(_) | _]).
+No.
+?- json_parse('{"nome" : "Arthur", "cognome" : "Dent"}',
+json_obj([(nome, N) | _]).
+N = "Arthur"
+?- json_parse('{"nome" : "Arthur", "cognome" : "Dent"}', JSObj),
+json_get(JSObj, [cognome], R).
+R = "Dent"
+```
+
+## Input/Output da e su file
+La vostra libreria dovrà anche fornire due predicati per la lettura da file e la scrittura su file.
+- `json_load(FileName, JSON).`
+- `json_write(JSON, FileName).`
+
+Il predicato `json_load/2` apre il file FileName e ha successo se riesce a costruire un oggetto JSON. Se FileName non esiste il predicato fallisce. Il suggerimento è di leggere l'intero file in una stringa e poi di richiamare `json_parse/2`. Il predicato `json_write/2` scrive l'oggetto JSON sul file FileName in sintassi JSON.  Se FileName non esiste, viene creato e se esiste viene sovrascritto.  Naturalmente ci si aspetta che
+```
+?- json_write(json_obj([/* stuff */]), 'foo.json'),
+json_load('foo.json', JSON).`
+JSON = json_obj([/* stuff */])
+```
+
+**Attenzione!** Il contenuto del file foo.json scritto da `json_write/2` dovrà essere JSON standard. Ciò significa che gli attributi dovranno essere scritti come stringhe e non come atomi.
+
+## Da consegnare
+**LEGGERE MOLTO ATTENTATMENTE LE ISTRUZIONI!!!**
+
+Dovrete consegnare un file .zip  (i files .7z, .rar o .tar etc, **non sono accettabili**!!!) dal nome MATRICOLA_Cognome_Nome_LP_E1P_JSON_2017.zip
+Nome e Cognome devono avere solo la prima lettera maiuscola, Matricola deve avere lo zero iniziale se presente.
+Cognomi e nomi multipli vanno inframmezzati con il carattere '_'; ad esempio: Pravettoni_Brambilla_Gian_Giac_Pier_Carluca. Questo file compresso deve contenere una sola directory con lo stesso nome.  Al suo interno ci deve essere una sottodirectory chiamata 'Prolog' e una sottodirectory chiamata 'Lisp'.  Al loro interno queste directory devono contenere i files caricabili e interpretabili, più tutte le istruzioni che riterrete necessarie. Il file Prolog si deve chiamare 'json-parsing.pl', e il file Lisp si deve chiamare 'json-parsing.lisp'.  Le due sottodirectory devono contenere un file chiamato README.txt.  In altre parole questa è la struttura della directory (folder, cartella) una volta spacchettata.
+- MATRICOLA_Cognome_Nome_LP_E1P_JSON_2017
+- Prolog
+- json-parsing.pl
+- README.txt
+- Lisp
+- json-parsing.lisp
+- README.txt
+
+Potete aggiungere altri files, ma il loro caricamento dovrà essere effettuato automaticamente al momento del caricamento ("loading") dei files sopracitati. Come sempre, valgono le direttive standard (reperibili sulla piattaforma Moodle) circa la formazione dei gruppi. Ogni file deve contenere all’inizio un commento con il nome e matricola di ogni membro del gruppo. Ogni persona deve consegnare un elaborato, anche quando ha lavorato in gruppo.
+
+Il termine ultimo della consegna sulla piattaforma Moodle è il 15 gennaio 2018, ore 23:59 GMT+1
 
 
