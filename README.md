@@ -46,7 +46,7 @@ CL prompt> v3
 Ora calcoliamo la sua norma, ovvero. . .
 ```
 CL prompt> (sqrt (innerprod V3 V3))
-3.7416575 ; Il risultato pu`o variare.
+3.7416575 ; Il risultato può variare.
 ```
 dove innerprod è il prodotto interno. Naturalmente possiamo anche avere
 ```
@@ -64,6 +64,7 @@ Ricordiamoci un vettore. . .
 ```
 ?- new_vector(v3, [1, 2, 3]).
 true
+
 ?- vector(v3, V).
 V = [1, 2, 3]
 ```
@@ -72,9 +73,11 @@ Ora calcoliamo la sua norma. . .
 ?- vector(v3, V), innerprod(V, V, IP), N is sqrt(IP).
 V = [1, 2, 3]
 N = 3.7416575
+
 ?- vector(v3, V), norm(V, N).
 V = [1, 2, 3]
 N = 3.7416575
+
 ?- vector(v3, V), vplus(V, [10, 0, 42], S).
 V = [1, 2, 3]
 S = [11, 2, 45]
@@ -82,37 +85,52 @@ S = [11, 2, 45]
 ## Interfaccia
 ### Common Lisp
 La libreria Common Lisp dovrà fornire una funzione kmeans che costruisca la partizione dell’insieme di osservazioni in k gruppi (clusters). Altre funzioni di utilità sono elencate di seguito.
+
 `kmeans observations k → clusters`
 Il parametro observations è una lista di vettori (ovvero liste), il parametro k è il numero di clusters da generare. Il risultato clusters è una lista di gruppi, ovvero di liste di vettori (che, ripetiamo, sono liste). La funzione chiamare la funzione error se il numero di osservazioni è minore di k.
+
 `centroid observations → centroid`
 La funzione centroid ritorna il centroide (i.e., la “media”) dell’insieme di osservazioni observations (una lista di vettori, ovvero di altre liste).
 Nota bene. Il centroide di un insieme di vettori non è necessariamente un elemento dell’insieme dato.
+
 `vplus vector1 vector2 → v`
 La funzione vplus calcola la somma (vettoriale) di due vettori.
+
 `vminus vector1 vector2 → v`
 La funzione v calcola la differenza (vettoriale) di due vettori.
+
 `innerprod vector1 vector2 → v`
 La funzione innerprod calcola il prodotto interno (vettoriale) di due vettori. Il valore ritornato v è uno scalare.
+
 `norm vector → v`
 La funzione norm calcola la norma euclidea di un vettore. Il valore ritornato v è uno scalare.
+
 ### Prolog
 La libreria Prolog dovrà fornire una predicato kmeans che costruisca la partizione dell’insieme di osservazioni in k gruppi (clusters). Altri predicati di utilità sono elencate di seguito.
+
 `kmeans(Observations, K, Clusters)`
 Il parametro Observations è una lista di vettori (ovvero liste), il parametro K è il numero di clusters da generare. Il predicato km/3 è vero quando Clusters è una lista di gruppi che corrisponde alla partizione di Observations in k clusters.
 Il predicato km/3 deve fallire se il numero di osservazioni è minore di K.
+
 `centroid(Observations, Centroid)`
 Il predicato centroid/2 è vero quando Centroid è il centroide (i.e., la “media”) dell’insieme di osservazioni Observations (una lista di vettori, ovvero di altre liste).
 Nota bene. Il centroide di un insieme di vettori non è necessariamente un elemento dell’insieme dato.
+
 `vplus(Vector1, Vector2, V)`
 Il predicato vplus/3 è vero quando V è la somma (vettoriale) di due vettori.
+
 `vminus(Vector1, Vector2, V)`
 Il predicato vminus/3 è vero quando V è la sottrazione (vettoriale) del vettore Vector2 da Vector1.
+
 `innerprod(Vector1, Vector2, R)`
 Il predicato innerprod/3 è vero quando R è il prodotto interno (vettoriale) di due vettori. Il valore R è uno scalare.
+
 `norm(Vector, N)`
 Il predicato norm/2 è vero quando N è la norma euclidea di un vettore. Il valore ritornato N è uno scalare.
+
 `new_vector(Name, Vector)`
 Il predicato new_vector/2 è vero quando a Name (un atomo Prolog) viene associato un vettore Vector. In questo caso potete usare assert.
+
 ## Note ed esempi
 Considerate l’insieme di osservazioni (in 2D):
 ```
