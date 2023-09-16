@@ -224,11 +224,11 @@ Cognomi e nomi multipli dovranno essere scritti sempre con in carattere “under
 Inoltre. . .
 • Nella cartella dovete avere una sottocartella di nome Lisp e una sottocartella di nome Prolog. 
 
-• Nella directory Lisp dovete avere:
+Nella directory Lisp dovete avere:
 
   – un file dal nome km.lisp che contiene il codice di kmeans, vplus, etc.
   
-      - Le prime linee del file devono essere dei commenti con il seguente formato, ovvero devono fornire le necessarie informazioni secondo le regole sulla         collaborazione pubblicate su Moodle.
+   - Le prime linee del file devono essere dei commenti con il seguente formato, ovvero devono fornire le necessarie informazioni secondo le regole sulla         collaborazione pubblicate su Moodle.
       
             ;;;; <Cognome> <Nome> <Matricola>
             
@@ -238,11 +238,11 @@ Inoltre. . .
         
   – un file README in cui si spiega come si possono usare le funzioni definite nella libreria.
   
-• Nella directory Prolog dovete avere:
+Nella directory Prolog dovete avere:
 
-  – un file dal nome km.pl che contiene il codice di km/3, vplus/3, etc.
+   – un file dal nome km.pl che contiene il codice di km/3, vplus/3, etc.
   
-      - Le prime linee del file devono essere dei commenti con il seguente formato, ovvero devono fornire le necessarie informazioni secondo le regole sulla         collaborazione pubblicate su Moodle.
+   - Le prime linee del file devono essere dei commenti con il seguente formato, ovvero devono fornire le necessarie informazioni secondo le regole sulla         collaborazione pubblicate su Moodle.
       
             % <Cognome> <Nome> <Matricola>
             
