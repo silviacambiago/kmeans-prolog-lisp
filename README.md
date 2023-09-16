@@ -221,8 +221,7 @@ Cognomi e nomi multipli dovranno essere scritti sempre con in carattere “under
 
 `De_Mascetti_Vien_Dal_Mare_Gian_Giacomo_Pier_Carl_Luca_424242_km_LP`
 
-Inoltre. . .
-• Nella cartella dovete avere una sottocartella di nome Lisp e una sottocartella di nome Prolog. 
+Inoltre, nella cartella dovete avere una sottocartella di nome Lisp e una sottocartella di nome Prolog. 
 
 Nella directory Lisp dovete avere:
 
