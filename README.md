@@ -228,13 +228,13 @@ Nella directory Lisp dovete avere:
 
   – un file dal nome km.lisp che contiene il codice di kmeans, vplus, etc.
   
-   - Le prime linee del file devono essere dei commenti con il seguente formato, ovvero devono fornire le necessarie informazioni secondo le regole sulla         collaborazione pubblicate su Moodle.
+  Le prime linee del file devono essere dei commenti con il seguente formato, ovvero devono fornire le necessarie informazioni secondo le regole sulla         collaborazione pubblicate su Moodle.
       
             ;;;; <Cognome> <Nome> <Matricola>
             
             ;;;; <eventuali collaborazioni>
             
-        Il contenuto del file deve essere ben commentato.
+   Il contenuto del file deve essere ben commentato.
         
   – un file README in cui si spiega come si possono usare le funzioni definite nella libreria.
   
@@ -242,13 +242,13 @@ Nella directory Prolog dovete avere:
 
    – un file dal nome km.pl che contiene il codice di km/3, vplus/3, etc.
   
-   - Le prime linee del file devono essere dei commenti con il seguente formato, ovvero devono fornire le necessarie informazioni secondo le regole sulla         collaborazione pubblicate su Moodle.
+Le prime linee del file devono essere dei commenti con il seguente formato, ovvero devono fornire le necessarie informazioni secondo le regole sulla         collaborazione pubblicate su Moodle.
       
             % <Cognome> <Nome> <Matricola>
             
             % <eventuali collaborazioni>
             
-        Il contenuto del file deve essere ben commentato.
+   Il contenuto del file deve essere ben commentato.
         
   – un file README in cui si spiega come si possono usare i predicati definite nel programma.
 
