@@ -164,7 +164,7 @@ Le tre clusters (con k = 3) calcolate dall’algoritmo k-medie sono:
 ```
 ### Esempi
 ### Common Lisp
-L’ordine in ognuno dei gruppi trovati non `e importante.
+L’ordine in ognuno dei gruppi trovati non è importante.
 ```
 CL prompt> (defparameter observations
               ’((3.0 7.0) (0.5 1.0) (0.8 0.5) (1.0 8.0)
@@ -210,32 +210,52 @@ result))
 In altre parole, potete (dovete!) sostituire ogni ciclo con una funzione ricorsiva (in coda).
 
 **Everybody knows how to search the Internet!**
+
 ...in altre parole, sono ben noti (quasi) tutti i pacchetti software che implementano (in Common Lisp o in Prolog) l’algoritmo k-medie.
 ## Da consegnare
 **LEGGERE MOLTO ATTENTATMENTE LE ISTRUZIONI!!!**
-Dovete consegnare:
-Uno .zip file dal nome <Cognome> <Nome> <matricola> km LP 202307.zip che conterrà una cartella dal nome <Cognome> <Nome> <matricola> km LP 202307.
+
+Dovete consegnare un file .zip file dal nome `<Cognome>_<Nome>_<matricola>_km_LP_202307.zip` che conterrà una cartella dal nome `<Cognome>_<Nome>_<matricola>_km_LP_202307`.
 
 Cognomi e nomi multipli dovranno essere scritti sempre con in carattere “underscore” (’_’). Ad esempio, “Gian Giacomo Pier Carl Luca De Mascetti Vien Dal Mare” che ha matricola 424242 diventerà:
-De_Mascetti_Vien_Dal_Mare_Gian_Giacomo_Pier_Carl_Luca_424242_km_LP
+
+`De_Mascetti_Vien_Dal_Mare_Gian_Giacomo_Pier_Carl_Luca_424242_km_LP`
+
 Inoltre. . .
 • Nella cartella dovete avere una sottocartella di nome Lisp e una sottocartella di nome Prolog. 
+
 • Nella directory Lisp dovete avere:
+
   – un file dal nome km.lisp che contiene il codice di kmeans, vplus, etc.
+  
       - Le prime linee del file devono essere dei commenti con il seguente formato, ovvero devono fornire le necessarie informazioni secondo le regole sulla         collaborazione pubblicate su Moodle.
+      
             ;;;; <Cognome> <Nome> <Matricola>
+            
             ;;;; <eventuali collaborazioni>
+            
         Il contenuto del file deve essere ben commentato.
+        
   – un file README in cui si spiega come si possono usare le funzioni definite nella libreria.
+  
 • Nella directory Prolog dovete avere:
+
   – un file dal nome km.pl che contiene il codice di km/3, vplus/3, etc.
+  
       - Le prime linee del file devono essere dei commenti con il seguente formato, ovvero devono fornire le necessarie informazioni secondo le regole sulla         collaborazione pubblicate su Moodle.
+      
             % <Cognome> <Nome> <Matricola>
+            
             % <eventuali collaborazioni>
+            
         Il contenuto del file deve essere ben commentato.
+        
   – un file README in cui si spiega come si possono usare i predicati definite nel programma.
 
-**ATTENZIONE!** Consegnate solo dei files e directories con nomi fatti come spiegato. Niente spazi extra e soprattutto niente .rar or .7z o .tgz – solo .zip!
+**ATTENZIONE!** 
+
+Consegnate solo dei files e directories con nomi fatti come spiegato. Niente spazi extra e soprattutto niente .rar or .7z o .tgz – solo .zip!
+
 Repetita iuvant! **NON CONSEGNARE FILES .rar!!!!**
 ### Esempio
 File .zip:
